@@ -1,8 +1,9 @@
 name: Student project backup
 
 on:
-    workflow_dispatch:
-        
+  workflow_dispatch:
+
+
 jobs: 
     backup:
         runs-on: ubuntu-latest
@@ -11,3 +12,4 @@ jobs:
               run: |
                 echo "backing up project at $(date)"
                 echo "backup created"
+                echo "hello"
