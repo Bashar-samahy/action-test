@@ -1,0 +1,14 @@
+name: Student project backup
+
+on:
+  schedule:
+    - corn: "* * * * *"
+
+jobs: 
+    backup:
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Backup 
+              run: |
+                echo "backing up project at $(date)"
+                echo "backup created"
