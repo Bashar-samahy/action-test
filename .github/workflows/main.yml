@@ -2,7 +2,7 @@ name: Student project backup
 
 on:
   schedule:
-    - corn: "* * * * *"
+    - cron: '0 * * * *'
 
 jobs: 
     backup:
