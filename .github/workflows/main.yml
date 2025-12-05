@@ -1,34 +1,33 @@
+name: Example Workflow
+
 on:
-    push 
-    
+  push:
+    branches: [ main ]
+
 jobs:
-  # Job 1: إعداد البيئة
-  setup:
+  job_1:
     runs-on: ubuntu-latest
     steps:
-      - name: تحميل الكود
-        uses: actions/checkout@v3
-      
-      - name: تثبيت Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Run Job 1
+        run: "echo Job ${{ github.job }}"
   
-  # Job 2: البناء (بعد Setup)
-  build:
+  job_2:
     runs-on: ubuntu-latest
-    needs: setup  # ⬅️ يبدأ بعد إتمام setup
+    needs: job_1
     steps:
-      - name: تثبيت المكتبات
-        run: npm install
-      
-      - name: بناء المشروع
-        run: npm run build
+      - name: Run Job 2
+        run: "echo Job ${{ github.job }}"
   
-  # Job 3: الاختبار (بالتوازي مع Build)
-  test:
+  job_3:
     runs-on: ubuntu-latest
-    needs: setup  # ⬅️ يبدأ بعد إتمام setup
+    needs: job_1
     steps:
-      - name: تشغيل الاختبارات
-        run: npm test
+      - name: Run Job 3
+        run: "echo Job ${{ github.job }}"
+  
+  job_4:
+    runs-on: ubuntu-latest
+    needs: [job_2, job_3]
+    steps:
+      - name: Run Job 4
+        run: "echo Job ${{ github.job }}"
