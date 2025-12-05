@@ -1,21 +1,34 @@
 on:
     push 
-
-
+    
 jobs:
+  # Job 1: إعداد البيئة
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: تحميل الكود
+        uses: actions/checkout@v3
+      
+      - name: تثبيت Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+  
+  # Job 2: البناء (بعد Setup)
   build:
     runs-on: ubuntu-latest
+    needs: setup  # ⬅️ يبدأ بعد إتمام setup
     steps:
-      - run: echo "1. البناء"
-    
+      - name: تثبيت المكتبات
+        run: npm install
+      
+      - name: بناء المشروع
+        run: npm run build
+  
+  # Job 3: الاختبار (بالتوازي مع Build)
   test:
     runs-on: ubuntu-latest
-    needs: build  # ⬅️ لازم يخلص build أولًا
+    needs: setup  # ⬅️ يبدأ بعد إتمام setup
     steps:
-      - run: echo "2. الاختبار (بعد البناء)"
-    
-  deploy:
-    runs-on: ubuntu-latest
-    needs: test   # ⬅️ لازم يخلص test أولًا
-    steps:
-      - run: echo "3. النشر (بعد الاختبار)"
+      - name: تشغيل الاختبارات
+        run: npm test
