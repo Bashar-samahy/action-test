@@ -1,15 +1,21 @@
-name: Student project backup
-
 on:
-  workflow_dispatch:
+    push 
 
 
-jobs: 
-    backup:
-        runs-on: ubuntu-latest
-        steps: 
-            - name: Backup 
-              run: |
-                echo "backing up project at $(date)"
-                echo "backup created"
-                echo "hello"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "1. البناء"
+    
+  test:
+    runs-on: ubuntu-latest
+    needs: build  # ⬅️ لازم يخلص build أولًا
+    steps:
+      - run: echo "2. الاختبار (بعد البناء)"
+    
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test   # ⬅️ لازم يخلص test أولًا
+    steps:
+      - run: echo "3. النشر (بعد الاختبار)"
